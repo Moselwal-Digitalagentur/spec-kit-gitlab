@@ -1,10 +1,8 @@
 ---
 description: "GitLab Issues in spec-kit Dateien importieren und synchronisieren"
 scripts:
-  - name: "check-prerequisites.sh"
-    path: "../../scripts/check-prerequisites.sh"
-  - name: "gitlab-helpers.sh"
-    path: "../scripts/bash/gitlab-helpers.sh"
+  check-prerequisites.sh: "../../scripts/check-prerequisites.sh"
+  gitlab-helpers.sh: "../scripts/bash/gitlab-helpers.sh"
 ---
 
 # GitLab Issues synchronisieren

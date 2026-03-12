@@ -1,8 +1,7 @@
 ---
 description: "GitLab-Konfiguration interaktiv einrichten"
 scripts:
-  - name: "gitlab-helpers.sh"
-    path: "../scripts/bash/gitlab-helpers.sh"
+  gitlab-helpers.sh: "../scripts/bash/gitlab-helpers.sh"
 ---
 
 # GitLab-Konfiguration einrichten

@@ -1,10 +1,8 @@
 ---
 description: "User Stories aus spec.md als GitLab Issues erstellen"
 scripts:
-  - name: "check-prerequisites.sh"
-    path: "../../scripts/check-prerequisites.sh"
-  - name: "gitlab-helpers.sh"
-    path: "../scripts/bash/gitlab-helpers.sh"
+  check-prerequisites.sh: "../../scripts/check-prerequisites.sh"
+  gitlab-helpers.sh: "../scripts/bash/gitlab-helpers.sh"
 ---
 
 # User Stories als GitLab Issues erstellen

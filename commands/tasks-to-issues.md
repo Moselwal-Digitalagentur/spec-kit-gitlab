@@ -1,10 +1,8 @@
 ---
 description: "Tasks aus tasks.md als GitLab Issues (Type: Task) erstellen"
 scripts:
-  - name: "check-prerequisites.sh"
-    path: "../../scripts/check-prerequisites.sh"
-  - name: "gitlab-helpers.sh"
-    path: "../scripts/bash/gitlab-helpers.sh"
+  check-prerequisites.sh: "../../scripts/check-prerequisites.sh"
+  gitlab-helpers.sh: "../scripts/bash/gitlab-helpers.sh"
 ---
 
 # Tasks als GitLab Issues erstellen

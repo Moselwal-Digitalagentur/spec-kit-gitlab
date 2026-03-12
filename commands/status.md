@@ -1,10 +1,8 @@
 ---
 description: "Status von GitLab Issues in tasks.md updaten und Übersicht anzeigen"
 scripts:
-  - name: "check-prerequisites.sh"
-    path: "../../scripts/check-prerequisites.sh"
-  - name: "gitlab-helpers.sh"
-    path: "../scripts/bash/gitlab-helpers.sh"
+  check-prerequisites.sh: "../../scripts/check-prerequisites.sh"
+  gitlab-helpers.sh: "../scripts/bash/gitlab-helpers.sh"
 ---
 
 # GitLab Issue-Status synchronisieren
