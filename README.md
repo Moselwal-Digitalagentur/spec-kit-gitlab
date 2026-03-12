@@ -1,6 +1,6 @@
 # spec-kit GitLab Extension
 
-GitLab-Integration für [spec-kit](https://github.com/specify-cli/specify-cli): Issues erstellen, synchronisieren und Status-Updates via `glab` CLI.
+GitLab-Integration für [spec-kit](https://github.com/github/spec-kit): Issues erstellen, synchronisieren und Status-Updates via `glab` CLI.
 
 Unterstützt self-hosted GitLab-Instanzen.
 
