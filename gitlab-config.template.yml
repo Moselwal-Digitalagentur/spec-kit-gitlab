@@ -1,0 +1,17 @@
+gitlab:
+  # URL deines self-hosted GitLab (z.B. https://gitlab.example.com)
+  url: "${GITLAB_URL}"
+  # Projekt-Pfad (z.B. "group/project" oder "group/subgroup/project")
+  project: "${GITLAB_PROJECT}"
+
+labels:
+  # Labels die automatisch gesetzt werden
+  story_label: "user-story"
+  task_label: "task"
+  speckit_label: "spec-kit"
+
+mapping:
+  # Wie Tasks auf GitLab-Felder gemappt werden
+  priority_to_label: true     # P1 → priority::1
+  phase_to_milestone: false   # Phase als Milestone?
+  link_tasks_to_stories: true # Task-Issues mit Story-Issues verlinken
