@@ -17,6 +17,10 @@ requires:
 
 provides:
   commands:
+    - name: "speckit.gitlab.init"
+      file: "commands/init.md"
+      description: "GitLab-Konfiguration interaktiv einrichten"
+
     - name: "speckit.gitlab.tasks-to-issues"
       file: "commands/tasks-to-issues.md"
       description: "Tasks aus tasks.md als GitLab Issues (Type: Task) erstellen"
