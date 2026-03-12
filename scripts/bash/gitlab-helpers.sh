@@ -28,6 +28,7 @@ load_gitlab_config() {
   GITLAB_SPECKIT_LABEL="$(grep '^\s*speckit_label:' "$config_file" | head -1 | sed 's/.*speckit_label:\s*//' | tr -d '"' | tr -d "'")"
   GITLAB_PRIORITY_TO_LABEL="$(grep '^\s*priority_to_label:' "$config_file" | head -1 | sed 's/.*priority_to_label:\s*//' | tr -d ' ')"
   GITLAB_LINK_TASKS="$(grep '^\s*link_tasks_to_stories:' "$config_file" | head -1 | sed 's/.*link_tasks_to_stories:\s*//' | tr -d ' ')"
+  GITLAB_FEATURE_TO_MILESTONE="$(grep '^\s*feature_to_milestone:' "$config_file" | head -1 | sed 's/.*feature_to_milestone:\s*//' | tr -d ' ')"
 
   # Defaults
   GITLAB_STORY_LABEL="${GITLAB_STORY_LABEL:-user-story}"
@@ -35,6 +36,7 @@ load_gitlab_config() {
   GITLAB_SPECKIT_LABEL="${GITLAB_SPECKIT_LABEL:-spec-kit}"
   GITLAB_PRIORITY_TO_LABEL="${GITLAB_PRIORITY_TO_LABEL:-true}"
   GITLAB_LINK_TASKS="${GITLAB_LINK_TASKS:-true}"
+  GITLAB_FEATURE_TO_MILESTONE="${GITLAB_FEATURE_TO_MILESTONE:-true}"
 
   # Validierung
   if [[ -z "$GITLAB_URL" || "$GITLAB_URL" == '${GITLAB_URL}' ]]; then
@@ -61,6 +63,7 @@ glab_create_issue() {
   local description="${2:-}"
   local labels="${3:-}"
   local issue_type="${4:-}"
+  local milestone="${5:-}"
 
   local args=(issue create --title "$title" --yes)
 
@@ -72,6 +75,9 @@ glab_create_issue() {
   fi
   if [[ -n "$issue_type" ]]; then
     args+=(--type "$issue_type")
+  fi
+  if [[ -n "$milestone" ]]; then
+    args+=(--milestone "$milestone")
   fi
 
   glab_cmd "${args[@]}" 2>&1
@@ -204,4 +210,50 @@ priority_to_label() {
     P4|p4) echo "priority::4" ;;
     *) echo "" ;;
   esac
+}
+
+# ============================================================================
+# Milestone-Management
+# ============================================================================
+
+get_feature_name() {
+  local feature_dir="$1"
+  # Feature-Name = Name des Feature-Verzeichnisses
+  basename "$feature_dir"
+}
+
+glab_find_milestone() {
+  # Sucht einen Milestone nach Titel, gibt die Milestone-ID zurück
+  local title="$1"
+  glab_cmd api "projects/:id/milestones?title=$(printf '%s' "$title" | jq -sRr @uri)" 2>/dev/null \
+    | jq -r ".[0].id // empty" 2>/dev/null || true
+}
+
+glab_create_milestone() {
+  # Erstellt einen neuen Milestone und gibt die ID zurück
+  local title="$1"
+  local description="${2:-Automatisch erstellt von spec-kit für Feature: $title}"
+  glab_cmd api "projects/:id/milestones" -f "title=$title" -f "description=$description" 2>/dev/null \
+    | jq -r ".id" 2>/dev/null
+}
+
+glab_ensure_milestone() {
+  # Findet oder erstellt einen Milestone, gibt den Titel zurück (für --milestone Flag)
+  local feature_name="$1"
+
+  local milestone_id
+  milestone_id="$(glab_find_milestone "$feature_name")"
+
+  if [[ -z "$milestone_id" ]]; then
+    milestone_id="$(glab_create_milestone "$feature_name")"
+    if [[ -n "$milestone_id" ]]; then
+      echo "Milestone '$feature_name' erstellt (ID: $milestone_id)" >&2
+    else
+      echo "WARN: Milestone '$feature_name' konnte nicht erstellt werden" >&2
+      return 1
+    fi
+  fi
+
+  # glab issue create --milestone erwartet den Titel
+  echo "$feature_name"
 }

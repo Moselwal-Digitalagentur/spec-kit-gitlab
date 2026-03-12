@@ -43,7 +43,7 @@ labels:
 
 mapping:
   priority_to_label: true        # P1/P2/P3 → priority::1/2/3
-  phase_to_milestone: false      # Phase als Milestone abbilden
+  feature_to_milestone: true       # Feature-Name als GitLab Milestone
   link_tasks_to_stories: true    # Tasks mit Story-Issues verlinken
 ```
 

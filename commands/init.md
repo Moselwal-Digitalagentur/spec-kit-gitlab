@@ -97,7 +97,7 @@ Frage nach den Mapping-Optionen (mit Defaults):
 
 > **Priority als Label mappen?** (z.B. P1 → `priority::1`) (Default: ja)
 > **Tasks mit Story-Issues verlinken?** (Default: ja)
-> **Phase als Milestone verwenden?** (Default: nein)
+> **Feature als Milestone anlegen?** (Der Feature-Name wird als GitLab Milestone verwendet) (Default: ja)
 
 ### Step 8: Konfigurationsdatei schreiben
 
@@ -115,7 +115,7 @@ labels:
 
 mapping:
   priority_to_label: <true/false>
-  phase_to_milestone: <true/false>
+  feature_to_milestone: <true/false>
   link_tasks_to_stories: <true/false>
 ```
 

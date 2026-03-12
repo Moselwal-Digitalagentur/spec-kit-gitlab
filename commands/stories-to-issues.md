@@ -35,6 +35,13 @@ Folgende Werte werden benötigt:
 - `GITLAB_URL` - URL des GitLab-Servers
 - `GITLAB_PROJECT` - Projekt-Pfad
 - Labels: `spec-kit`, `user-story`
+- `GITLAB_FEATURE_TO_MILESTONE` - ob Feature als Milestone gemappt wird
+
+Falls `feature_to_milestone: true`, ermittle den Feature-Namen aus dem Feature-Verzeichnis (Verzeichnisname) und stelle sicher, dass ein entsprechender Milestone in GitLab existiert:
+
+```bash
+MILESTONE_TITLE="$(glab_ensure_milestone "$(get_feature_name "$FEATURE_DIR")")"
+```
 
 ### Step 3: spec.md lesen und User Stories extrahieren
 
@@ -93,8 +100,11 @@ Für jede noch nicht erstellte Story:
      --title "US1: Story-Titel" \
      --description "<formatierte Beschreibung>" \
      --label "spec-kit,user-story,priority::1" \
+     --milestone "$MILESTONE_TITLE" \
      --yes
    ```
+
+   Den `--milestone`-Parameter nur setzen, wenn `feature_to_milestone: true` und `MILESTONE_TITLE` gesetzt ist. Nutze `glab_create_issue` mit dem 5. Parameter für den Milestone.
 
 4. **Issue-URL und Nummer** aus dem Output extrahieren.
 

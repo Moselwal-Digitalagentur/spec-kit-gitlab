@@ -35,8 +35,15 @@ Folgende Werte werden benötigt:
 - `GITLAB_URL` - URL des GitLab-Servers
 - `GITLAB_PROJECT` - Projekt-Pfad (z.B. "group/project")
 - Labels: `spec-kit`, `task` und ggf. Priority-Labels
+- `GITLAB_FEATURE_TO_MILESTONE` - ob Feature als Milestone gemappt wird
 
 Falls `GITLAB_URL` oder `GITLAB_PROJECT` nicht gesetzt sind, prüfe auch die Umgebungsvariablen.
+
+Falls `feature_to_milestone: true`, ermittle den Feature-Namen und stelle sicher, dass ein Milestone existiert:
+
+```bash
+MILESTONE_TITLE="$(glab_ensure_milestone "$(get_feature_name "$FEATURE_DIR")")"
+```
 
 ### Step 3: tasks.md lesen und parsen
 
@@ -77,8 +84,11 @@ Für jeden noch nicht erstellten Task:
      --description "**Task-ID:** T001\n**Priority:** P1\n**Story:** US1\n\nTask-Beschreibung" \
      --label "spec-kit,task,priority::1,story::US1" \
      --type "task" \
+     --milestone "$MILESTONE_TITLE" \
      --yes
    ```
+
+   Den `--milestone`-Parameter nur setzen, wenn `feature_to_milestone: true` und `MILESTONE_TITLE` gesetzt ist. Nutze `glab_create_issue` mit dem 5. Parameter für den Milestone.
 
 3. **Issue-URL und Nummer** aus dem Output extrahieren.
 

@@ -13,5 +13,5 @@ labels:
 mapping:
   # Wie Tasks auf GitLab-Felder gemappt werden
   priority_to_label: true     # P1 → priority::1
-  phase_to_milestone: false   # Phase als Milestone?
+  feature_to_milestone: true  # Feature-Name als Milestone
   link_tasks_to_stories: true # Task-Issues mit Story-Issues verlinken

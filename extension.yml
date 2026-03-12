@@ -67,5 +67,5 @@ defaults:
     speckit_label: "spec-kit"
   mapping:
     priority_to_label: true
-    phase_to_milestone: false
+    feature_to_milestone: true
     link_tasks_to_stories: true
