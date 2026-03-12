@@ -79,6 +79,10 @@ Erstellt GitLab Issues für alle User Stories aus `spec.md`. Erwartet das Format
 
 Erstellt GitLab Issues (Type: Task) für alle Tasks aus `tasks.md`. Erwartet das Format `- [ ] T001 [P1] [US1] Beschreibung`. Verlinkt Tasks automatisch mit ihren Story-Issues.
 
+### `/speckit.gitlab.close-issues`
+
+Synchronisiert den lokalen Erledigungsstatus nach GitLab. Tasks mit `[x]` in `tasks.md` werden in GitLab geschlossen, wieder geöffnete (`[ ]`) werden reopened. Stories werden automatisch geschlossen wenn alle zugehörigen Tasks erledigt sind.
+
 ### `/speckit.gitlab.sync`
 
 Synchronisiert GitLab Issue-Status in die lokalen `tasks.md` Dateien. Aktualisiert Checkboxen basierend auf dem Issue-Status (open/closed). Zeigt Feature-Issue Status an (falls vorhanden). Optional: Importiert neue GitLab Issues mit `--import`.
@@ -98,7 +102,8 @@ Zeigt eine Übersicht aller GitLab Issues mit aktuellem Status (Task-ID, Issue-N
 4. /speckit.tasks                    → tasks.md generieren
 5. /speckit.gitlab.stories-to-issues → Stories als GitLab Issues (verlinkt mit Feature)
 6. /speckit.gitlab.tasks-to-issues   → Tasks als GitLab Issues (verlinkt mit Stories)
-7. /speckit.gitlab.status            → Status synchronisieren
+7. /speckit.gitlab.close-issues      → Erledigte Issues in GitLab schließen
+8. /speckit.gitlab.status            → Status synchronisieren
 ```
 
 ### Pull-Workflow (GitLab → Lokal)

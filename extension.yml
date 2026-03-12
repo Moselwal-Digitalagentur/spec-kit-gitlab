@@ -37,6 +37,10 @@ provides:
       file: "commands/import-feature.md"
       description: "Bestehendes GitLab Issue als Feature importieren"
 
+    - name: "speckit.gitlab.close-issues"
+      file: "commands/close-issues.md"
+      description: "Erledigte Tasks/Stories in GitLab schließen, wieder geöffnete reopenen"
+
     - name: "speckit.gitlab.sync"
       file: "commands/sync.md"
       description: "GitLab Issues in spec-kit Dateien importieren/synchronisieren"

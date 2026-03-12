@@ -317,3 +317,23 @@ extract_feature_issue_number() {
   # Extrahiert Issue-Nummer aus "#232 https://..." oder "#232"
   echo "$mapping_value" | grep -oE '#[0-9]+' | head -1 | tr -d '#'
 }
+
+# ============================================================================
+# Issue schließen / öffnen
+# ============================================================================
+
+glab_close_issue() {
+  local issue_number="$1"
+  glab_cmd issue close "$issue_number" 2>&1
+}
+
+glab_reopen_issue() {
+  local issue_number="$1"
+  glab_cmd issue reopen "$issue_number" 2>&1
+}
+
+extract_mapping_issue_number() {
+  local mapping_value="$1"
+  # Extrahiert Issue-Nummer aus "#42 https://..." oder "#42"
+  echo "$mapping_value" | grep -oE '#[0-9]+' | head -1 | tr -d '#'
+}
