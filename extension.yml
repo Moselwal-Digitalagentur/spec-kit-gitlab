@@ -29,6 +29,14 @@ provides:
       file: "commands/stories-to-issues.md"
       description: "User Stories aus spec.md als GitLab Issues erstellen"
 
+    - name: "speckit.gitlab.feature-to-issue"
+      file: "commands/feature-to-issue.md"
+      description: "Feature als GitLab Issue erstellen und Stories verlinken"
+
+    - name: "speckit.gitlab.import-feature"
+      file: "commands/import-feature.md"
+      description: "Bestehendes GitLab Issue als Feature importieren"
+
     - name: "speckit.gitlab.sync"
       file: "commands/sync.md"
       description: "GitLab Issues in spec-kit Dateien importieren/synchronisieren"
@@ -65,7 +73,9 @@ defaults:
     story_label: "user-story"
     task_label: "task"
     speckit_label: "spec-kit"
+    feature_label: "feature"
   mapping:
     priority_to_label: true
     feature_to_milestone: true
+    feature_to_issue: true
     link_tasks_to_stories: true

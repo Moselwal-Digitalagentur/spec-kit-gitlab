@@ -31,7 +31,17 @@ Falls kein Feature-Verzeichnis gefunden wird, informiere den Benutzer und brich 
 
 Lade die GitLab-Konfiguration aus `.specify/extensions/gitlab/gitlab-config.yml`. Nutze die Helper-Funktionen aus `{SCRIPT:gitlab-helpers.sh}`.
 
-### Step 3: Offene und geschlossene Issues von GitLab holen
+### Step 3: Feature-Issue und Issues von GitLab holen
+
+Falls ein Feature-Issue in der Mapping-Datei vorhanden ist (`feature:` Eintrag), rufe dessen aktuellen Status ab:
+
+```bash
+FEATURE_MAPPING="$(read_feature_mapping "$MAPPING_PATH")"
+if [[ -n "$FEATURE_MAPPING" ]]; then
+  FEATURE_ISSUE_NUMBER="$(extract_feature_issue_number "$FEATURE_MAPPING")"
+  FEATURE_STATUS="$(glab_view_issue "$FEATURE_ISSUE_NUMBER" | jq -r '.state')"
+fi
+```
 
 Lade alle Issues mit dem `spec-kit` Label aus dem konfigurierten GitLab-Projekt:
 
@@ -86,7 +96,13 @@ Aktualisiere die Mapping-Datei mit allen neuen Zuordnungen.
 
 ### Step 8: Zusammenfassung
 
+Falls ein Feature-Issue vorhanden ist, zeige dessen Status zuerst:
+```
+Feature: #232 - user-authentication (Open)
+```
+
 Zeige eine Übersicht:
+- Feature-Issue Status (falls vorhanden)
 - Anzahl aktualisierte Tasks (Status geändert)
 - Anzahl neu importierte Tasks (falls --import)
 - Anzahl unveränderte Tasks

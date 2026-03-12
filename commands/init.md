@@ -88,6 +88,7 @@ Frage den Benutzer nach den Labels (mit Defaults):
 > **Label für User Stories?** (Default: `user-story`)
 > **Label für Tasks?** (Default: `task`)
 > **Label für spec-kit Tracking?** (Default: `spec-kit`)
+> **Label für Feature-Issues?** (Default: `feature`)
 
 Die meisten Benutzer werden die Defaults akzeptieren.
 
@@ -98,6 +99,7 @@ Frage nach den Mapping-Optionen (mit Defaults):
 > **Priority als Label mappen?** (z.B. P1 → `priority::1`) (Default: ja)
 > **Tasks mit Story-Issues verlinken?** (Default: ja)
 > **Feature als Milestone anlegen?** (Der Feature-Name wird als GitLab Milestone verwendet) (Default: ja)
+> **Feature als GitLab Issue erstellen?** (Erstellt ein übergeordnetes Issue pro Feature) (Default: ja)
 
 ### Step 8: Konfigurationsdatei schreiben
 
@@ -112,10 +114,12 @@ labels:
   story_label: "<eingegebenes Label>"
   task_label: "<eingegebenes Label>"
   speckit_label: "<eingegebenes Label>"
+  feature_label: "<eingegebenes Label>"
 
 mapping:
   priority_to_label: <true/false>
   feature_to_milestone: <true/false>
+  feature_to_issue: <true/false>
   link_tasks_to_stories: <true/false>
 ```
 

@@ -9,9 +9,11 @@ labels:
   story_label: "user-story"
   task_label: "task"
   speckit_label: "spec-kit"
+  feature_label: "feature"      # Label für Feature-Issues
 
 mapping:
   # Wie Tasks auf GitLab-Felder gemappt werden
-  priority_to_label: true     # P1 → priority::1
-  feature_to_milestone: true  # Feature-Name als Milestone
-  link_tasks_to_stories: true # Task-Issues mit Story-Issues verlinken
+  priority_to_label: true       # P1 → priority::1
+  feature_to_milestone: true    # Feature-Name als Milestone
+  feature_to_issue: true        # Feature als GitLab Issue erstellen
+  link_tasks_to_stories: true   # Task-Issues mit Story-Issues verlinken

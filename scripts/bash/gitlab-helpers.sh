@@ -29,6 +29,8 @@ load_gitlab_config() {
   GITLAB_PRIORITY_TO_LABEL="$(grep '^\s*priority_to_label:' "$config_file" | head -1 | sed 's/.*priority_to_label:\s*//' | tr -d ' ')"
   GITLAB_LINK_TASKS="$(grep '^\s*link_tasks_to_stories:' "$config_file" | head -1 | sed 's/.*link_tasks_to_stories:\s*//' | tr -d ' ')"
   GITLAB_FEATURE_TO_MILESTONE="$(grep '^\s*feature_to_milestone:' "$config_file" | head -1 | sed 's/.*feature_to_milestone:\s*//' | tr -d ' ')"
+  GITLAB_FEATURE_TO_ISSUE="$(grep '^\s*feature_to_issue:' "$config_file" | head -1 | sed 's/.*feature_to_issue:\s*//' | tr -d ' ')"
+  GITLAB_FEATURE_LABEL="$(grep '^\s*feature_label:' "$config_file" | head -1 | sed 's/.*feature_label:\s*//' | tr -d '"' | tr -d "'")"
 
   # Defaults
   GITLAB_STORY_LABEL="${GITLAB_STORY_LABEL:-user-story}"
@@ -37,6 +39,8 @@ load_gitlab_config() {
   GITLAB_PRIORITY_TO_LABEL="${GITLAB_PRIORITY_TO_LABEL:-true}"
   GITLAB_LINK_TASKS="${GITLAB_LINK_TASKS:-true}"
   GITLAB_FEATURE_TO_MILESTONE="${GITLAB_FEATURE_TO_MILESTONE:-true}"
+  GITLAB_FEATURE_TO_ISSUE="${GITLAB_FEATURE_TO_ISSUE:-true}"
+  GITLAB_FEATURE_LABEL="${GITLAB_FEATURE_LABEL:-feature}"
 
   # Validierung
   if [[ -z "$GITLAB_URL" || "$GITLAB_URL" == '${GITLAB_URL}' ]]; then
@@ -116,6 +120,7 @@ init_mapping_file() {
     cat > "$mapping_path" << 'YAML'
 # GitLab Issue Mapping - automatisch generiert von spec-kit GitLab Extension
 # Format: spec-kit ID → GitLab Issue Nummer und URL
+feature: ""
 stories: {}
 tasks: {}
 YAML
@@ -256,4 +261,59 @@ glab_ensure_milestone() {
 
   # glab issue create --milestone erwartet den Titel
   echo "$feature_name"
+}
+
+# ============================================================================
+# Feature-Issue Mapping
+# ============================================================================
+
+read_feature_mapping() {
+  local mapping_path="$1"
+
+  if [[ ! -f "$mapping_path" ]]; then
+    return 1
+  fi
+
+  local value
+  value="$(grep '^\s*feature:' "$mapping_path" | head -1 | sed 's/.*feature:\s*//' | tr -d '"' | tr -d "'")"
+
+  if [[ -n "$value" ]]; then
+    echo "$value"
+    return 0
+  fi
+
+  return 1
+}
+
+write_feature_mapping() {
+  local mapping_path="$1"
+  local issue_number="$2"
+  local issue_url="${3:-}"
+
+  if [[ ! -f "$mapping_path" ]]; then
+    init_mapping_file "$(dirname "$mapping_path")" > /dev/null
+  fi
+
+  local entry="feature: \"#${issue_number}"
+  if [[ -n "$issue_url" ]]; then
+    entry+=" ${issue_url}"
+  fi
+  entry+="\""
+
+  # Prüfe ob feature-Eintrag bereits existiert
+  if grep -q '^\s*feature:' "$mapping_path" 2>/dev/null; then
+    sed -i.bak "s|^\(\s*\)feature:.*|${entry}|" "$mapping_path"
+    rm -f "${mapping_path}.bak"
+  else
+    # Vor stories: einfügen
+    sed -i.bak "/^stories:/i\\
+${entry}" "$mapping_path"
+    rm -f "${mapping_path}.bak"
+  fi
+}
+
+extract_feature_issue_number() {
+  local mapping_value="$1"
+  # Extrahiert Issue-Nummer aus "#232 https://..." oder "#232"
+  echo "$mapping_value" | grep -oE '#[0-9]+' | head -1 | tr -d '#'
 }

@@ -66,9 +66,23 @@ Nur tatsächliche Änderungen vornehmen (keine unnötigen Schreibvorgänge).
 
 ### Step 6: Übersicht anzeigen
 
+Falls ein Feature-Issue in der Mapping-Datei vorhanden ist (`feature:` Eintrag), rufe dessen Status ab und zeige ihn zuerst an:
+
+```bash
+FEATURE_MAPPING="$(read_feature_mapping "$MAPPING_PATH")"
+if [[ -n "$FEATURE_MAPPING" ]]; then
+  FEATURE_ISSUE_NUMBER="$(extract_feature_issue_number "$FEATURE_MAPPING")"
+  # Issue-Details abrufen via glab_view_issue
+fi
+```
+
 Zeige eine formatierte Tabelle:
 
 ```
+Feature: #232 - user-authentication (Open)
+URL: https://gitlab.example.com/.../issues/232
+================================================
+
 GitLab Issue-Status für Feature: <feature-name>
 ================================================
 

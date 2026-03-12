@@ -108,6 +108,16 @@ Für jede noch nicht erstellte Story:
 
 4. **Issue-URL und Nummer** aus dem Output extrahieren.
 
+5. **Mit Feature-Issue verlinken:**
+   Falls `feature:` in `.gitlab-mapping.yml` gesetzt ist, verlinke das neu erstellte Story-Issue mit dem Feature-Issue:
+   ```bash
+   FEATURE_MAPPING="$(read_feature_mapping "$MAPPING_PATH")"
+   if [[ -n "$FEATURE_MAPPING" ]]; then
+     FEATURE_ISSUE_NUMBER="$(extract_feature_issue_number "$FEATURE_MAPPING")"
+     glab_add_relation "$STORY_ISSUE_NUMBER" "$FEATURE_ISSUE_NUMBER"
+   fi
+   ```
+
 ### Step 6: Mapping-Datei aktualisieren
 
 Schreibe/aktualisiere die Mapping-Datei `FEATURE_DIR/.gitlab-mapping.yml`:
